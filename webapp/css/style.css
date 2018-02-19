@@ -1,0 +1,14 @@
+/* Enter your custom styles here */
+
+.sapMObjStatusNone>.sapMObjStatusText {
+    color: black
+}
+.sapMObjStatusError>.sapMObjStatusText {
+    color: red 
+}
+.sapMObjStatusWarning>.sapMObjStatusText {
+    color: yellow
+}
+.sapMObjStatusSuccess>.sapMObjStatusText {
+    color: green
+}

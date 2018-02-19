@@ -1,0 +1,124 @@
+<core:View xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+	xmlns:smartTable="sap.ui.comp.smarttable" xmlns:table="sap.ui.table" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" controllerName="ZFIN_P_ASSET_REQUEST.controller.Main"
+	height="100%">
+	<Page title="Create &amp; Monitor Financial Asset Requests">
+		<VBox fitContainer="true">
+			<smartFilterBar:SmartFilterBar id="smartFilterBar" entitySet="WBSAssetRequestHeaderSet" persistencyKey="SmartFilter_Explored">
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration key="WBSElement" index="1" label="WBS" visibleInAdvancedArea="true"></smartFilterBar:ControlConfiguration>
+					<smartFilterBar:ControlConfiguration key="WBSStatus" index="2" label="Status of WBS" visibleInAdvancedArea="true"></smartFilterBar:ControlConfiguration>
+					<smartFilterBar:ControlConfiguration key="ProjectController" index="3" label="Project Controller" visibleInAdvancedArea="true"></smartFilterBar:ControlConfiguration>
+					<smartFilterBar:ControlConfiguration key="WorkflowStatus" index="4" label="Workflow Status" visibleInAdvancedArea="true"></smartFilterBar:ControlConfiguration>
+				</smartFilterBar:controlConfiguration>
+				<!-- layout data used to make the table growing but the filter bar fixed -->
+				<smartFilterBar:layoutData>
+					<FlexItemData shrinkFactor="0"/>
+				</smartFilterBar:layoutData>
+			</smartFilterBar:SmartFilterBar>
+			<!--<smartTable:SmartTable id="SmartTableId" width="100%" entitySet="WBSAssetRequestHeaderSet" smartFilterId="smartFilterBar" tableType="Table"-->
+			<!--	useExportToExcel="false" useVariantManagement="false" useTablePersonalisation="true" header="Financial Asset Requests" showRowCount="true"-->
+			<!--	persistencyKey="SmartTableAnalytical_Explored" enableAutoBinding="true" app:useSmartField="true"-->
+			<!--	initiallyVisibleFields="WBSElement,WBSDescription,WBSStatus,WorkflowStatus,AssignedToUser,AssignedToUserRole,AssetCount,LastActionByUser,LastActionByRole,LastActionOn"-->
+			<!--	class="sapUiResponsiveContentPadding" dataReceived="_readDataReceived">-->
+			<smartTable:SmartTable id="SmartTableId" smartFilterId="smartFilterBar" entitySet="WBSAssetRequestHeaderSet"
+				class="sapFioriListReportSmartTables" header="Financial Asset Requests" tableBindingPath="/WBSAssetRequestHeaderSet"
+				enableAutoBinding="true" useVariantManagement="false" showVariantManagement="true" useTablePersonalisation="true"
+				showFullScreenButton="true" showRowCount="true" tableType="Table" dataReceived="_readDataReceived"
+				requestAtLeastFields="WBSElement,WBSDescription,WBSStatus,WorkflowStatus,AssignedToUser,AssignedToUserRole,AssetCount,LastActionByUser,LastActionByRole,LastActionOn"
+				ignoreFromPersonalisation="ObjectNum,WBSElement,WBSDescription,WBSStatus,WorkflowStatus,AssignedToUser,AssignedToUserRole,AssignedToUserName,AssetCount,LastActionByUser,LastActionByUserName,LastActionByRole,LastActionOn">
+				<table:Table id="listTableId" visibleRowCount= "20" selectionMode="MultiToggle" enableColumnReordering="true" fixedLayout="true"
+					class="sapUiSizeCompact sapFioriListReportSmartTables" rowSelectionChange="rowSelection">
+					<table:columns>
+						<table:Column id="WBSElementtCol" width="125px">
+							<Text text="WBS Element"/>
+							<table:template>
+								<Link text="{WBSElement}" press="onLinkPress"/>
+							</table:template>
+						</table:Column>
+						<table:Column id="WBSDescriptionCol" width="125px">
+							<Text text="WBS Description"/>
+							<table:template>
+								<!--<ObjectIdentifier text="{WBSDescription}"/>-->
+								<Text text="{path:'WBSDescription'}"/>
+							</table:template>
+						</table:Column>
+						<table:Column id="WBSStatusCol" width="120px">
+							<Text text="WBS Status"/>
+							<table:template>
+								<!--<ObjectIdentifier text="{WBSStatus}"/>-->
+								<Text text="{path:'WBSStatus'}"/>
+							</table:template>
+						</table:Column>
+						<table:Column id="WorkflowStatusCol" width="125px">
+							<Text text="Workflow Status"/>
+							<table:template>
+								<!--<ObjectIdentifier text="{WorkflowStatus}"/>-->
+								<!--<Text text="{path:'WorkflowStatus', formatter:'.formatter.statusText'}"/>-->
+								<ObjectStatus text="{WorkflowStatus}" state="{path: 'WorkflowStatus', formatter: '.formatter.statusText'}"/>
+							</table:template>
+						</table:Column>
+						<table:Column id="AssignedToUserCol" width="125px">
+							<Text text="Assigned To"/>
+							<table:template>
+								<!--<ObjectIdentifier text="{AssignedToUser}"/>-->
+								<Text text="{path:'AssignedToUser'}"/>
+							</table:template>
+						</table:Column>
+						<!--<table:Column id="AssignedToUserNameCol" width="125px">-->
+						<!--	<Text text="Assigned To User Name"/>-->
+						<!--	<table:template>-->
+						<!--		<ObjectIdentifier text="{AssignedToUser}"/>-->
+						<!--		<Text text="{path:'AssignedToUserName'}"/>-->
+						<!--	</table:template>-->
+						<!--</table:Column>-->
+						<table:Column id="AssignedToUserRoleCol" width="130px">
+							<Text text="Assigned To Role"/>
+							<table:template>
+								<!--<ObjectIdentifier text="{AssignedToUserRole}"/>-->
+								<Text text="{path:'AssignedToUserRole'}"/>
+							</table:template>
+						</table:Column>
+						<table:Column id="AssetCountCol" width="120px">
+							<Text text="No. of Assets"/>
+							<table:template>
+								<!--<ObjectIdentifier text="{AssetCount}"/>-->
+								<Text text="{path:'AssetCount'}"/>
+							</table:template>
+						</table:Column>
+						<table:Column id="LastActionByUserCol" width="125px">
+							<Text text="Last Action By"/>
+							<table:template>
+								<!--<ObjectIdentifier text="{LastActionByUser}"/>-->
+								<Text text="{path:'LastActionByUser'}"/>
+							</table:template>
+						</table:Column>
+						<table:Column id="LastActionByRoleCol" width="125px">
+							<Text text="Last Action Role"/>
+							<table:template>
+								<!--<ObjectIdentifier text="{LastActionByRole}"/>-->
+								<Text text="{path:'LastActionByRole'}"/>
+							</table:template>
+						</table:Column>
+						<table:Column id="LastActionOnCol" width="125px">
+							<Label text="Last Action Date"/>
+							<table:template>
+								<Text text="{path: 'LastActionOn', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy'}}"/>
+							</table:template>
+						</table:Column>
+					</table:columns>
+				</table:Table>
+				<!-- layout data used to make the table growing but the filter bar fixed -->
+				<smartTable:layoutData>
+					<FlexItemData growFactor="1" baseSize="0%"/>
+				</smartTable:layoutData>
+			</smartTable:SmartTable>
+		</VBox>
+		<footer>
+			<OverflowToolbar id="otbFooter">
+				<ToolbarSpacer/>
+				<Button type="Accept" press="onPress" text="Initiate Workflow"></Button>
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</core:View>
